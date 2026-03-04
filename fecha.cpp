@@ -2,8 +2,10 @@
 #include <iostream>
 #include <ctime>
 
-int main(){
-    
+using namespace std;
 
-    
+int main(){
+    Fecha fecha;
+    fecha.fechasolicitada();
+    return 0;
 }
