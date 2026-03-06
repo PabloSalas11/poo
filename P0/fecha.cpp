@@ -5,7 +5,7 @@
 using namespace std;
 
 Fecha::Fecha(int dia, int mes, int anno) : dia_{dia}, mes_{mes}, anno_{anno} {
-    if(dia == 0 || mes == 0 || anno == 0) {   
+    if(dia_ == 0 || mes_ == 0 || anno_ == 0) {   
         time_t t = time(0); 
         tm* now = localtime(&t);
         
