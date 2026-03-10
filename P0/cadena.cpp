@@ -52,4 +52,4 @@ Cadena& Cadena::operator=(const Cadena& c) {
     return *this;
 }
 
-Cadena::~Cadena() { delete[] s_; }
+Cadena::~Cadena() {delete[] s_; }

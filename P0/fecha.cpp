@@ -9,22 +9,17 @@ Fecha::Fecha(int dia, int mes, int anno) : dia_{dia}, mes_{mes}, anno_{anno} {
         time_t t = time(0); 
         tm* now = localtime(&t);
         
-        if(dia_ == 0 ) { 
-            dia_= now->tm_mday;   
-        }
-        if (mes_ == 0 ) {
-            mes_ = now->tm_mon + 1;
-        }
-        if (anno_ == 0) {
-            anno_ = now->tm_year + 1900;
-        }  
+        if(dia_ == 0 ) dia_= now->tm_mday;   
+        if (mes_ == 0 ) mes_ = now->tm_mon + 1;
+        if (anno_ == 0) anno_ = now->tm_year + 1900; 
     } 
+    if (!valida()) {
+        throw Invalida("Fecha no válida");
+    }
 }
 
 bool Fecha::valida() const { //reviar por si hay fallo
-    if (anno_ < 1 || mes_ < 1 || mes_ > 12 || dia_ < 1) {
-        return false;
-    }
+    if (anno_ < AñoMinimo || anno_ > AñoMaximo || mes_ < 1 || mes_ > 12 || dia_ < 1 || dia_ > 31) return false;
     
     int dias_en_mes[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
     
