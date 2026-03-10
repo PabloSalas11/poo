@@ -2,7 +2,7 @@ class C{
     public:
         C();
         C(int a, int b, int c, int d);
-        int f1(int i) const;
+        int f1(int i) ;
         int f2(int i);
         void f3() {m = h;} //Error al ser una funcion estatica y no recibir el puntero this no se puede acceder a los miembros no estaticos, por lo que se debe cambiar a static void f3() {m = 0;} o se le quita el static a la funcion
         static int n;
@@ -14,7 +14,7 @@ class C{
         static int m;
 };
 
-int C::f1(int i) const{ //Error 1: al ser constante no se puede modificar el valor de h al ser declarado como int h (o se pone mutable int h o se le quita el const a la funcion)
+int C::f1(int i) { //Error 1: al ser constante no se puede modificar el valor de h al ser declarado como int h (o se pone mutable int h o se le quita el const a la funcion)
     h = i; k=i; return 0;
 }
 

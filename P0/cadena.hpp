@@ -12,19 +12,19 @@ public:
     void imprimir() const { std::cout << s_ << std::endl; }
     char* substr(size_t indice, size_t tam) const;
     char at(size_t indice) const;
+
+    friend bool operator==(const Cadena& c1, const Cadena& c2) { return c1 == c2; }
+    friend bool operator<(const Cadena& c1, const Cadena& c2) { return c1 < c2; }
+
+    friend bool operator!=(const Cadena& c1, const Cadena& c2) { return !(c1 == c2);}
+    friend bool operator>(const Cadena& c1, const Cadena& c2) { return c2 < c1; }
+    friend bool operator<=(const Cadena& c1, const Cadena& c2) { return !(c2 < c1);}
+    friend bool operator>=(const Cadena& c1, const Cadena& c2) { return !(c1 < c2);}
+
 private:
     char vacia[1];
     size_t tam_;
     char* s_;
 };
-
-bool operator==(const Cadena& c1, const Cadena& c2);
-bool operator<(const Cadena& c1, const Cadena& c2);
-
-inline bool operator!=(const Cadena& c1, const Cadena& c2) { return !(c1 == c2); }
-inline bool operator>(const Cadena& c1, const Cadena& c2) { return c2 < c1; }
-inline bool operator<=(const Cadena& c1, const Cadena& c2) { return !(c2 < c1); }
-inline bool operator>=(const Cadena& c1, const Cadena& c2) { return !(c1 < c2); }
-
 
 #endif 
