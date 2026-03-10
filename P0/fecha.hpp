@@ -5,8 +5,6 @@
 #include <cstddef> 
 #include <ctime>
 
-using namespace std;
-
 class Fecha {
 public:
     explicit Fecha(int dia=0, int mes=0, int anno=0);

@@ -35,19 +35,8 @@ bool operator==(const Fecha& f1, const Fecha& f2){
     return f1.dia() == f2.dia() && f1.mes() == f2.mes() && f1.anno() == f2.anno();
 }
 
-
 bool operator<(const Fecha& f1, const Fecha& f2){
-    if (f1.anno() < f2.anno()) {
-        return true;
-    }
-    if (f1.anno() > f2.anno()) {
-        return false;
-    }
-    if(f1.mes() > f2.mes()) {
-        return  false;
-    }
-    if (f1.mes() < f2.mes()) {
-        return true;
-    }
+    if (f1.anno() != f2.anno()) return f1.anno() < f2.anno();
+    if (f1.mes() != f2.mes()) return f1.mes() < f2.mes();
     return f1.dia() < f2.dia();
 }
