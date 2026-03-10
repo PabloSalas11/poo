@@ -21,6 +21,7 @@ char Cadena::at(size_t indice)const {
 }
 
 char* Cadena::substr(size_t indice, size_t tam) const {
+    cout << "indice: " << indice << " tam: " << tam << endl;
     if (indice >= tam_ || indice + tam > tam_) {
         throw out_of_range("Índice o tamaño fuera de rango");
     }

@@ -8,10 +8,13 @@ int main() {
     cout << "La longitud es:" << c.length() << " y la cadena es: ";
     c.imprimir();
 
-    c.substr(1,3);
+    Cadena c2 = c.substr(1,6);
+    cout << "Subcadena: ";
+    c2.imprimir();
 
-    Fecha fecha;
-    cout << "Fecha: " << fecha.dia() << "/" << fecha.mes() << "/" << fecha.anno() << endl;
+    
+    Fecha f1;
+    cout << "Fecha: " << f1.dia() << "/" << f1.mes() << "/" << f1.anno() << endl;
     return 0;
     
 }
