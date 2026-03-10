@@ -13,6 +13,10 @@ Cadena::Cadena(const char* a): vacia{'\0'}, tam_{strlen(a)}, s_{new char[tam_+1]
     strcpy(s_, a);
 }
 
+Cadena::Cadena(const Cadena& c) : vacia{'\0'}, tam_{c.tam_}, s_{new char[c.tam_ + 1]} {
+    strcpy(s_, c.s_); 
+}
+
 char Cadena::at(size_t indice)const {
     if (indice >= tam_) {
         throw out_of_range("Índice fuera de rango");
@@ -37,15 +41,5 @@ Cadena Cadena::substr(size_t indice, size_t tam) const {
 
     return subcadena;
 }
-
-bool operator==(const Cadena& c1, const Cadena& c2) {
-    if (c1.tam_ != c2.tam_) return false;
-    return strcmp(c1.s_, c2.s_) == 0;
-}
-
-bool operator<(const Cadena& c1, const Cadena& c2) {
-    return strcmp(c1.s_, c2.s_) < 0;
-}
-
 
 Cadena::~Cadena() { delete[] s_; }

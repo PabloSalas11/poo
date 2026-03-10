@@ -1,5 +1,6 @@
 #include "cadena.hpp"
 #include "fecha.hpp"
+#include <iostream>
 
 using namespace std;
 
