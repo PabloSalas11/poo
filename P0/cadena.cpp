@@ -42,4 +42,14 @@ Cadena Cadena::substr(size_t indice, size_t tam) const {
     return subcadena;
 }
 
+Cadena& Cadena::operator=(const Cadena& c) {
+    if (this != &c) { // Evitar auto-asignación
+        delete[] s_; 
+        tam_ = c.tam_;
+        s_ = new char[tam_ + 1];
+        strcpy(s_, c.s_);
+    }
+    return *this;
+}
+
 Cadena::~Cadena() { delete[] s_; }
