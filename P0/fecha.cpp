@@ -22,10 +22,19 @@ bool Fecha::valida() const { //reviar por si hay fallo
     if (anno_ < AñoMinimo || anno_ > AñoMaximo || mes_ < 1 || mes_ > 12 || dia_ < 1 || dia_ > 31) return false;
     
     int dias_en_mes[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-    
-    // Verificar si es año bisiesto
-    if ((anno_ % 4 == 0 && anno_ % 100 != 0) || (anno_ % 400 == 0)) {
-        dias_en_mes[1] = 29; // Febrero tiene 29 días en año bisiesto
+    if ((anno_ % 4 == 0 && anno_ % 100 != 0) || (anno_ % 400 == 0)) dias_en_mes[1] = 29;
+
+    switch (mes_)
+    {
+    case 1:case3:case5:case7:case8:case10:case12: 
+        if(dia_ > dias_en_mes[mes_ - 1]) return false;
+        break;
+    case 2:
+        if (dia_> dias_en_mes[1]) return false;
+        break;
+    case 4:case6:case9:case11:
+        if (dia_ > dias_en_mes[mes_ - 1]) return false;
+        break;
     }
     
     return dia_ <= dias_en_mes[mes_ - 1];
