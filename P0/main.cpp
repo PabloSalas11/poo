@@ -4,7 +4,7 @@
 using namespace std;
 
 int main() {
-    Cadena c("Hola Mundo");
+    Cadena c;
     cout << "Cadena: " << c.length() << " y la cadena es: ";
     c.imprimir();
 
