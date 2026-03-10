@@ -49,3 +49,5 @@ bool operator<(const Fecha& f1, const Fecha& f2){
     if (f1.mes() != f2.mes()) return f1.mes() < f2.mes();
     return f1.dia() < f2.dia();
 }
+
+Fecha::~Fecha() {}

@@ -25,6 +25,7 @@ public:
             const char* mensaje;
     };
 
+    ~Fecha();
 private:
     bool valida() const;
     int dia_, mes_, anno_;
