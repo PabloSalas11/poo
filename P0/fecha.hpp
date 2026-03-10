@@ -16,6 +16,9 @@ public:
     static const int AñoMinimo = 1902;
     static const int AñoMaximo = 2037;
 
+    friend bool operator==(const Fecha& f1, const Fecha& f2);
+    friend bool operator<(const Fecha& f1, const Fecha& f2);
+
     class Invalida{
         public:
             Invalida(const char* m): mensaje{m} {}
@@ -28,10 +31,6 @@ private:
     bool valida() const;
     int dia_, mes_, anno_;
 };
-
-bool operator==(const Fecha& f1, const Fecha& f2);
-bool operator<(const Fecha& f1, const Fecha& f2);
-
 
 inline bool operator!=(const Fecha& f1, const Fecha& f2) { return !(f1 == f2); }
 inline bool operator>(const Fecha& f1, const Fecha& f2) { return f2 < f1; }

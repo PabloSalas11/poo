@@ -20,16 +20,32 @@ char Cadena::at(size_t indice)const {
     return s_[indice];
 }
 
-char* Cadena::substr(size_t indice, size_t tam) const {
+Cadena Cadena::substr(size_t indice, size_t tam) const {
     cout << "indice: " << indice << " tam: " << tam << endl;
     if (indice >= tam_ || indice + tam > tam_) {
         throw out_of_range("Índice o tamaño fuera de rango");
     }
     
-    char* subcadena = new char [tam + 1];
+    char* aux = new char[tam + 1];
     for(size_t i = 0; i < tam; ++i){
-         subcadena[i] = s_[indice + i];
+         aux[i] =s_[indice + i];
     }
-    subcadena[tam] = '\0';
-    return (subcadena);
+
+    aux[tam] = '\0';
+    Cadena subcadena(aux);
+    delete[] aux;
+
+    return subcadena;
 }
+
+bool operator==(const Cadena& c1, const Cadena& c2) {
+    if (c1.tam_ != c2.tam_) return false;
+    return strcmp(c1.s_, c2.s_) == 0;
+}
+
+bool operator<(const Cadena& c1, const Cadena& c2) {
+    return strcmp(c1.s_, c2.s_) < 0;
+}
+
+
+Cadena::~Cadena() { delete[] s_; }
