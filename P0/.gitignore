@@ -1,0 +1,5 @@
+# Ignore build artifacts
+build/
+P0/build/
+*.o
+*.exe
