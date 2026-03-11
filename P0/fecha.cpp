@@ -18,7 +18,21 @@ Fecha::Fecha(int dia, int mes, int anno) : dia_{dia}, mes_{mes}, anno_{anno} {
     }
 }
 
-bool Fecha::valida() const { //reviar por si hay fallo
+Fecha::Fecha(const char* cadena){
+	int dia, mes, anno;
+	sscanf(cadena,"%d/%d/%d",&dia,&mes,&anno);
+	dia_=dia;
+	mes_=mes;
+	anno_=anno;
+    
+    time_t t = time(0); 
+    tm* now = localtime(&t);
+    if(dia_ == 0 ) dia_= now->tm_mday;   
+    if (mes_ == 0 ) mes_ = now->tm_mon + 1;
+    if (anno_ == 0) anno_ = now->tm_year + 1900;
+}
+
+bool Fecha::valida() const { 
     if (anno_ < AñoMinimo || anno_ > AñoMaximo || mes_ < 1 || mes_ > 12 || dia_ < 1 || dia_ > 31) return false;
     
     int dias_en_mes[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};

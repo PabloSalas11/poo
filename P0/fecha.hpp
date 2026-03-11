@@ -8,9 +8,11 @@
 class Fecha {
 public:
     explicit Fecha(int dia=0, int mes=0, int anno=0);
+    Fecha(const char* fecha); 
     int dia() const { return dia_; }
     int mes() const { return mes_; }
     int anno() const { return anno_; }
+    
     static const int AñoMinimo = 1902;
     static const int AñoMaximo = 2037;
 

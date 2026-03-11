@@ -14,7 +14,7 @@ int main() {
     c2.imprimir();
 
     
-    Fecha f1;
+    Fecha f1("0/0/2021");
     cout << "Fecha: " << f1.dia() << "/" << f1.mes() << "/" << f1.anno() << endl;
     return 0;
     
