@@ -20,16 +20,24 @@ Fecha::Fecha(int dia, int mes, int anno) : dia_{dia}, mes_{mes}, anno_{anno} {
 
 Fecha::Fecha(const char* cadena){
 	int dia, mes, anno;
-	sscanf(cadena,"%d/%d/%d",&dia,&mes,&anno);
+	int campos_leidos = sscanf(cadena,"%d/%d/%d",&dia,&mes,&anno);
 	dia_=dia;
 	mes_=mes;
 	anno_=anno;
-    
+
+    if(campos_leidos != 3) {
+        throw Invalida("Formato de fecha no válido");
+    }
+
     time_t t = time(0); 
     tm* now = localtime(&t);
     if(dia_ == 0 ) dia_= now->tm_mday;   
     if (mes_ == 0 ) mes_ = now->tm_mon + 1;
     if (anno_ == 0) anno_ = now->tm_year + 1900;
+
+    if(!valida()) {
+        throw Invalida("Fecha no válida");
+    }
 }
 
 bool Fecha::valida() const { 
@@ -40,16 +48,16 @@ bool Fecha::valida() const {
 
     switch (mes_)
     {
-    case 1:case3:case5:case7:case8:case10:case12: 
-        if(dia_ > dias_en_mes[mes_ - 1]) return false;
-        break;
-    case 2:
-        if (dia_> dias_en_mes[1]) return false;
-        break;
-    case 4:case6:case9:case11:
+    case 1: case 3: case 5: case 7: case 8: case 10: case 12:
         if (dia_ > dias_en_mes[mes_ - 1]) return false;
         break;
-    }
+    case 2:
+        if(dia_ > dias_en_mes[1]) return false;
+        break;
+    default:
+        if(dia_ > dias_en_mes[mes_ - 1]) return false;
+        break;
+    };
     
     return dia_ <= dias_en_mes[mes_ - 1];
 }

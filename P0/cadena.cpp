@@ -2,25 +2,45 @@
 
 using namespace std;
 
+char Cadena::vacia[1] = {'\0'};
 
-Cadena::Cadena(size_t n, char c): vacia{'\0'}, tam_{n}, s_{new char[n+1]} {
+Cadena::Cadena(size_t n, char c): tam_{n}, s_{n == 0 ? vacia : new char[n+1]} {
     for(size_t i = 0; i < tam_; ++i)
         s_[i] = c;
     s_[tam_] = '\0';
 }
 
-Cadena::Cadena(const char* a): vacia{'\0'}, tam_{strlen(a)}, s_{new char[tam_+1]} {
+Cadena::Cadena(const char* a): tam_{strlen(a)}, s_{tam_ == 0 ? vacia : new char[tam_+1]} {
     strcpy(s_, a);
 }
 
-Cadena::Cadena(const Cadena& c) : vacia{'\0'}, tam_{c.tam_}, s_{new char[c.tam_ + 1]} {
+Cadena::Cadena(const Cadena& c) : tam_{c.tam_}, s_{tam_ == 0 ? vacia : new char[tam_+1]} {
     strcpy(s_, c.s_); 
 }
 
-char Cadena::at(size_t indice)const {
+// 1. at() para LECTURA (const, devuelve copia)
+char Cadena::at(size_t indice) const {
     if (indice >= tam_) {
         throw out_of_range("Índice fuera de rango");
     }
+    return s_[indice];
+}
+
+// 2. at() para ESCRITURA (no const, devuelve referencia)
+char& Cadena::at(size_t indice) {
+    if (indice >= tam_) {
+        throw out_of_range("Índice fuera de rango");
+    }
+    return s_[indice];
+}
+
+// 3. operator[] para LECTURA (const, devuelve copia, sin comprobar)
+char Cadena::operator[](size_t indice) const {
+    return s_[indice];
+}
+
+// 4. operator[] para ESCRITURA (no const, devuelve referencia, sin comprobar)
+char& Cadena::operator[](size_t indice) {
     return s_[indice];
 }
 
@@ -52,4 +72,8 @@ Cadena& Cadena::operator=(const Cadena& c) {
     return *this;
 }
 
-Cadena::~Cadena() {delete[] s_; }
+Cadena::~Cadena() { 
+    if (tam_ != 0) {
+        delete[] s_; 
+    }
+}
