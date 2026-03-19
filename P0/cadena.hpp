@@ -29,7 +29,12 @@ public:
     Cadena& operator=(const Cadena& c);
     friend bool operator==(const Cadena& c1, const Cadena& c2) { return strcmp(c1.s_, c2.s_) == 0; }
     friend bool operator<(const Cadena& c1, const Cadena& c2) { return strcmp(c1.s_, c2.s_) < 0; }
-   
+    
+    Cadena& operator+=(const Cadena& c);
+
+    explicit operator const char*() const;
+
+
     ~Cadena();
     
 private:
@@ -42,5 +47,7 @@ inline bool operator!=(const Cadena& c1, const Cadena& c2) { return !(c1 == c2);
 inline bool operator>(const Cadena& c1, const Cadena& c2) { return c2 < c1; }
 inline bool operator<=(const Cadena& c1, const Cadena& c2) { return !(c2 < c1);}
 inline bool operator>=(const Cadena& c1, const Cadena& c2) { return !(c1 < c2);}
+
+Cadena operator+(const Cadena& c1, const Cadena& c2);
 
 #endif 

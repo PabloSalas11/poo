@@ -45,7 +45,6 @@ char& Cadena::operator[](size_t indice) {
 }
 
 Cadena Cadena::substr(size_t indice, size_t tam) const {
-    cout << "indice: " << indice << " tam: " << tam << endl;
     if (indice >= tam_ || indice + tam > tam_) {
         throw out_of_range("Índice o tamaño fuera de rango");
     }
@@ -63,13 +62,39 @@ Cadena Cadena::substr(size_t indice, size_t tam) const {
 }
 
 Cadena& Cadena::operator=(const Cadena& c) {
-    if (this != &c) { // Evitar auto-asignación
-        delete[] s_; 
+    if (this != &c) {
+        if (tam_ > 0) delete[] s_; // Solo borramos si hay memoria dinámica
         tam_ = c.tam_;
-        s_ = new char[tam_ + 1];
-        strcpy(s_, c.s_);
+        s_ = (tam_ == 0) ? vacia : new char[tam_ + 1];
+        if (tam_ > 0) strcpy(s_, c.s_);
     }
     return *this;
+}
+
+Cadena& Cadena::operator+=(const Cadena& c){
+    if (c.tam_== 0) return *this;
+
+    size_t nuevo_tam = tam_ + c.tam_;
+    char* nuevo_s = new char[nuevo_tam + 1];
+    strcpy(nuevo_s,s_);
+    strcat(nuevo_s, c.s_);
+
+    if(tam_>0) delete[] s_;
+    
+    s_=nuevo_s;
+    tam_=nuevo_tam;
+
+    return *this;
+}
+
+Cadena operator+(const Cadena& c1, const Cadena& c2){
+    Cadena nueva = c1;
+    nueva += c2;
+    return nueva;
+}
+
+Cadena::operator const char*() const {
+    return s_;
 }
 
 Cadena::~Cadena() { 

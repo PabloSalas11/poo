@@ -16,8 +16,24 @@ public:
     static const int AñoMinimo = 1902;
     static const int AñoMaximo = 2037;
 
-    friend bool operator==(const Fecha& f1, const Fecha& f2);
-    friend bool operator<(const Fecha& f1, const Fecha& f2);
+    bool operator==(const Fecha& f1) const;
+    bool operator<(const Fecha& f1) const;
+    bool operator!=(const Fecha& f1) const{return !(*this == f1);}
+    bool operator>(const Fecha& f1) const{return f1 < *this;}
+    bool operator<=(const Fecha& f1) const{return !(*this > f1);}
+    bool operator>=(const Fecha& f1) const{return !(*this < f1);}
+
+    Fecha& operator+=(int dias); 
+    Fecha& operator-=(int dias);
+    Fecha operator+(int dias) const;
+    Fecha operator-(int dias) const;
+    Fecha& operator++();
+    Fecha operator++(int);
+    Fecha& operator--();
+    Fecha operator--(int);
+
+    friend std::ostream& operator <<(std::ostream& os, const Fecha& f);
+    friend std::istream& operator >>(std::istream& is, Fecha& f);
 
     class Invalida{
         public:
@@ -31,11 +47,8 @@ public:
 private:
     bool valida() const;
     int dia_, mes_, anno_;
+    static const char* DIAS[];
+    static const char* MESES[];
 };
-
-inline bool operator!=(const Fecha& f1, const Fecha& f2) { return !(f1 == f2); }
-inline bool operator>(const Fecha& f1, const Fecha& f2) { return f2 < f1; }
-inline bool operator<=(const Fecha& f1, const Fecha& f2) { return !(f2 < f1); }
-inline bool operator>=(const Fecha& f1, const Fecha& f2) { return !(f1 < f2); }
 
 #endif
