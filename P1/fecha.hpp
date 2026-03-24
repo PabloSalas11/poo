@@ -40,7 +40,7 @@ public:
             const char* mensaje;
     };
 
-operator const char*()const;
+const char* cadena()const;
 
 private:
     bool valida() const;
@@ -48,5 +48,7 @@ private:
     mutable bool actual;
     mutable char crep[80];
 };
+
+ostream& operator<<(ostream& os,const Fecha& f);
 
 #endif
