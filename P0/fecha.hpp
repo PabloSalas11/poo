@@ -11,7 +11,7 @@ public:
     Fecha(const char* fecha); 
     int dia() const { return dia_; }
     int mes() const { return mes_; }
-    int anno() const { return anno_; }
+    int año() const { return anno_; }
     
     static const int AñoMinimo = 1902;
     static const int AñoMaximo = 2037;
@@ -32,9 +32,6 @@ public:
     Fecha& operator--();
     Fecha operator--(int);
 
-    friend std::ostream& operator <<(std::ostream& os, const Fecha& f);
-    friend std::istream& operator >>(std::istream& is, Fecha& f);
-
     class Invalida{
         public:
             Invalida(const char* m): mensaje{m} {}
@@ -43,12 +40,12 @@ public:
             const char* mensaje;
     };
 
-    ~Fecha();
+    operator const char*()const;
 private:
     bool valida() const;
     int dia_, mes_, anno_;
-    static const char* DIAS[];
-    static const char* MESES[];
+    mutable bool actual;
+    mutable char crep[80];
 };
 
 #endif

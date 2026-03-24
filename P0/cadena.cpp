@@ -10,12 +10,24 @@ Cadena::Cadena(size_t n, char c): tam_{n}, s_{n == 0 ? vacia : new char[n+1]} {
     s_[tam_] = '\0';
 }
 
-Cadena::Cadena(const char* a): tam_{strlen(a)}, s_{tam_ == 0 ? vacia : new char[tam_+1]} {
-    strcpy(s_, a);
+Cadena::Cadena(const char* a): tam_{strlen(a)} {
+    if(tam_==0){
+        s_ = vacia;
+    }
+    else{
+        s_=new char[tam_ + 1];
+        strcpy(s_, a);
+    }
 }
 
-Cadena::Cadena(const Cadena& c) : tam_{c.tam_}, s_{tam_ == 0 ? vacia : new char[tam_+1]} {
-    strcpy(s_, c.s_); 
+Cadena::Cadena(const Cadena& c) : tam_{c.tam_} {
+    if(tam_==0){
+        s_ = vacia;
+    }
+    else{
+        s_=new char[tam_ + 1];
+        strcpy(s_, c.s_);
+    }
 }
 
 // 1. at() para LECTURA (const, devuelve copia)
@@ -45,7 +57,7 @@ char& Cadena::operator[](size_t indice) {
 }
 
 Cadena Cadena::substr(size_t indice, size_t tam) const {
-    if (indice >= tam_ || indice + tam > tam_) {
+    if (indice >= tam_ || tam>tam_-indice) {
         throw out_of_range("Índice o tamaño fuera de rango");
     }
     
@@ -63,10 +75,22 @@ Cadena Cadena::substr(size_t indice, size_t tam) const {
 
 Cadena& Cadena::operator=(const Cadena& c) {
     if (this != &c) {
-        if (tam_ > 0) delete[] s_; // Solo borramos si hay memoria dinámica
+        // 1. Compramos el piso nuevo PRIMERO
+        char* nuevo_s = (c.tam_ == 0) ? vacia : new char[c.tam_ + 1];
+        
+        // 2. Hacemos la mudanza de los muebles (si la otra cadena no está vacía)
+        if (c.tam_ > 0) {
+            strcpy(nuevo_s, c.s_);
+        }
+        
+        // 3. AHORA SÍ, si todo ha ido bien, entregamos las llaves viejas
+        if (tam_ > 0) {
+            delete[] s_;
+        }
+        
+        // 4. Actualizamos nuestros papeles
         tam_ = c.tam_;
-        s_ = (tam_ == 0) ? vacia : new char[tam_ + 1];
-        if (tam_ > 0) strcpy(s_, c.s_);
+        s_ = nuevo_s;
     }
     return *this;
 }
