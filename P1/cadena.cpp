@@ -121,6 +121,55 @@ Cadena::operator const char*() const {
     return s_;
 }
 
+std::ostream& operator<<(std::ostream& os, const Cadena& c) {
+    os << c.s_;
+    return os;
+}
+
+std::istream& operator>>(std::istream& is, Cadena& c){
+    char buffer[33];
+    is.width(33); //controlo q solo entren 32+\0
+    is>>buffer;
+    c=buffer;
+    return is;
+}
+
+Cadena::iterator Cadena::begin() {return s_;}
+Cadena::iterator Cadena::end(){return s_+tam_;}
+
+Cadena::const_iterator Cadena::begin() const {return s_;}
+Cadena::const_iterator Cadena::end() const {return s_ + tam_;}
+Cadena::const_iterator Cadena::cbegin() const {return s_;}
+Cadena::const_iterator Cadena::cend() const {return s_ + tam_;}
+
+Cadena::reverse_iterator Cadena::rbegin(){return reverse_iterator(end());}
+Cadena::reverse_iterator Cadena::rend(){return reverse_iterator(begin());}
+
+Cadena::const_reverse_iterator Cadena::rbegin() const{return const_reverse_iterator(end());}
+Cadena::const_reverse_iterator Cadena::rend() const{return const_reverse_iterator(begin());}
+Cadena::const_reverse_iterator Cadena::crbegin() const{return const_reverse_iterator(cend());}
+Cadena::const_reverse_iterator Cadena::crend() const{return const_reverse_iterator(cbegin());}
+
+Cadena::Cadena(Cadena&& c) noexcept : tam_{c.tam_}, s_{c.s_} {
+    c.tam_ = 0;
+    c.s_ = vacia;
+}
+
+Cadena& Cadena::operator=(Cadena&& c) noexcept {
+    if (this != &c) {
+        if (tam_ != 0) {  //se prepara los atributos de nuestra clase previamente al copiado de nuestro objeto c
+            delete[] s_;
+        }
+        
+        tam_ = c.tam_; //copiado a atributos de la clase
+        s_ = c.s_;
+        
+        c.tam_ = 0; //se vacia los rvalues del objeto c
+        c.s_ = vacia;
+    }
+    return *this;
+}
+
 Cadena::~Cadena() { 
     if (tam_ != 0) {
         delete[] s_; 

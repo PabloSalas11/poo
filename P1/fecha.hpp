@@ -40,7 +40,10 @@ public:
             const char* mensaje;
     };
 
-const char* cadena()const;
+    const char* cadena()const;
+
+    friend std::ostream& operator<<(std::ostream& os,const Fecha& f);
+    friend std::istream& operator>>(std::istream& is, Fecha& f);
 
 private:
     bool valida() const;
@@ -49,6 +52,6 @@ private:
     mutable char crep[80];
 };
 
-ostream& operator<<(ostream& os,const Fecha& f);
+
 
 #endif

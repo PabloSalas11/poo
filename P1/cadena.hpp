@@ -4,6 +4,9 @@
 #include <iostream>
 #include <stdexcept>
 #include <cstring>
+#include <iterator>
+
+
 
 class Cadena {
 public:
@@ -34,6 +37,33 @@ public:
 
     explicit operator const char*() const;
 
+    friend std::ostream& operator<<(std::ostream& os, const Cadena& c);
+    friend std::istream& operator>>(std::istream& is, Cadena& c);
+
+    using iterator = char*; // Le decimos a C++ que "iterator" es un alias de "char*"
+    using const_iterator = const char*;
+    using reverse_iterator=std::reverse_iterator<iterator>;
+    using const_reverse_iterator=std::reverse_iterator<const_iterator>;
+
+    iterator begin();       // Función que apunta al principio
+    iterator end();
+
+    const_iterator begin() const;
+    const_iterator end() const;
+    const_iterator cbegin() const;
+    const_iterator cend() const;
+
+    reverse_iterator rbegin();
+    reverse_iterator rend();
+
+    const_reverse_iterator rbegin() const;
+    const_reverse_iterator rend() const;
+    const_reverse_iterator crbegin() const;
+    const_reverse_iterator crend() const;
+
+    Cadena(Cadena&& c) noexcept; // Constructor de movimiento
+
+    Cadena& operator=(Cadena&& c) noexcept; // Asignación de movimiento
 
     ~Cadena();
     

@@ -148,10 +148,24 @@ const char * Fecha::cadena()const{
     return crep;
 }
 
-ostream& operator<<(ostream& os,const Fecha& f){
+std::ostream& operator<<(std::ostream& os,const Fecha& f){
     os<<f.cadena();
     return os;
 }
 
+std::istream& operator>>(std::istream& is, Fecha& f) {
+    char cadena[11]; // Reservamos espacio para "DD/MM/AAAA"
+    is >> cadena;    // Leemos la palabra del flujo
+    
+    try {
+        f = Fecha(cadena); // ¡Magia! Aquí se hace el sscanf, el valida() y todo lo demás.
+    } catch (const Fecha::Invalida& e) {
+        // Si la fecha era incorrecta, el constructor lanzó la excepción y caemos aquí.
+        is.setstate(std::ios::failbit); // Marcamos el flujo con error como pide el PDF.
+        throw; // Volvemos a lanzar la excepción hacia arriba.
+    }
+    
+    return is;
+}
 
 
