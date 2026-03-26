@@ -47,7 +47,7 @@ Fecha::Fecha(const char* cadena): actual{false}{
 }
 
 bool Fecha::valida() const { 
-    if (anno_ < AñoMinimo || anno_ > AñoMaximo || mes_ < 1 || mes_ > 12 || dia_ < 1 || dia_ > 31) return false;
+    if ( mes_ < 1 || mes_ > 12 || dia_ < 1) return false;
     
     int dias_en_mes[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
     if ((anno_ % 4 == 0 && anno_ % 100 != 0) || (anno_ % 400 == 0)) dias_en_mes[1] = 29;
@@ -68,14 +68,14 @@ bool Fecha::valida() const {
     return dia_ <= dias_en_mes[mes_ - 1];
 }
 
-bool Fecha::operator==(const Fecha& f1) const{
-    return f1.dia_ == this->dia_ && f1.mes_ == this->mes_ && f1.anno_ == this->anno_;
+bool operator==(const Fecha& f1, const Fecha& f2) {
+    return f1.dia_ == f2.dia_ && f1.mes_ == f2.mes_ && f1.anno_ == f2.anno_;
 }
 
-bool Fecha::operator<(const Fecha& f) const {
-    if (anno_ != f.anno_) return anno_ < f.anno_;
-    if (mes_ != f.mes_)   return mes_ < f.mes_;
-    return dia_ < f.dia_;
+bool operator<(const Fecha& f1, const Fecha& f2) {
+    if (f1.anno_ != f2.anno_) return f1.anno_ < f2.anno_;
+    if (f1.mes_ != f2.mes_)   return f1.mes_ < f2.mes_;
+    return f1.dia_ < f2.dia_;
 }
 
 Fecha& Fecha::operator+=(int dias){
@@ -90,8 +90,11 @@ Fecha& Fecha::operator+=(int dias){
     mes_ = fecha_tm.tm_mon + 1; 
     anno_ = fecha_tm.tm_year + 1900;
 
-    if(!valida()){
-        throw Invalida("Fecha Invalida");
+    if(!valida()) {
+        throw Invalida("Fecha no válida");
+    }
+    if(anno_<AñoMinimo||anno_>AñoMaximo){
+        throw Invalida("Año fuera de limites");
     }
 
     return *this;
@@ -148,6 +151,8 @@ const char * Fecha::cadena()const{
     return crep;
 }
 
+
+//practica 1
 std::ostream& operator<<(std::ostream& os,const Fecha& f){
     os<<f.cadena();
     return os;
@@ -155,10 +160,12 @@ std::ostream& operator<<(std::ostream& os,const Fecha& f){
 
 std::istream& operator>>(std::istream& is, Fecha& f) {
     char cadena[11]; // Reservamos espacio para "DD/MM/AAAA"
+    is.width(11);
+    
     is >> cadena;    // Leemos la palabra del flujo
     
     try {
-        f = Fecha(cadena); // ¡Magia! Aquí se hace el sscanf, el valida() y todo lo demás.
+        f = Fecha(cadena); 
     } catch (const Fecha::Invalida& e) {
         // Si la fecha era incorrecta, el constructor lanzó la excepción y caemos aquí.
         is.setstate(std::ios::failbit); // Marcamos el flujo con error como pide el PDF.

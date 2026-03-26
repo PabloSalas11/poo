@@ -121,16 +121,23 @@ Cadena::operator const char*() const {
     return s_;
 }
 
+
+//practica 1
 std::ostream& operator<<(std::ostream& os, const Cadena& c) {
     os << c.s_;
     return os;
 }
 
-std::istream& operator>>(std::istream& is, Cadena& c){
-    char buffer[33];
-    is.width(33); //controlo q solo entren 32+\0
-    is>>buffer;
-    c=buffer;
+std::istream& operator>>(std::istream& is, Cadena& c) {
+    char buffer[33] = ""; // Lo inicializamos vacío
+    is.width(33);
+    
+    if (is >> buffer) {
+        c = buffer; // Solo si hemos leído algo con éxito
+    } else {
+        c = "";     // Si el flujo estaba vacío, la cadena DEBE ser ""
+        is.setstate(std::ios::failbit); 
+    }
     return is;
 }
 

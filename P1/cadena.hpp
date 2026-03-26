@@ -6,8 +6,7 @@
 #include <cstring>
 #include <iterator>
 
-
-
+//practica 0
 class Cadena {
 public:
     explicit Cadena(size_t n=0, char c=' ');

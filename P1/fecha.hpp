@@ -16,12 +16,9 @@ public:
     static const int AñoMinimo = 1902;
     static const int AñoMaximo = 2037;
 
-    bool operator==(const Fecha& f1) const;
-    bool operator<(const Fecha& f1) const;
-    bool operator!=(const Fecha& f1) const{return !(*this == f1);}
-    bool operator>(const Fecha& f1) const{return f1 < *this;}
-    bool operator<=(const Fecha& f1) const{return !(*this > f1);}
-    bool operator>=(const Fecha& f1) const{return !(*this < f1);}
+    // Solo declaramos las "bases" como friend para que tengan acceso a los datos privados
+    friend bool operator==(const Fecha& f1, const Fecha& f2);
+    friend bool operator<(const Fecha& f1, const Fecha& f2);
 
     Fecha& operator+=(int dias); 
     Fecha& operator-=(int dias);
@@ -52,6 +49,21 @@ private:
     mutable char crep[80];
 };
 
+// Operadores relacionales basados en == y <
+inline bool operator!=(const Fecha& f1, const Fecha& f2) { 
+    return !(f1 == f2); 
+}
 
+inline bool operator>(const Fecha& f1, const Fecha& f2) { 
+    return f2 < f1; 
+}
+
+inline bool operator<=(const Fecha& f1, const Fecha& f2) { 
+    return !(f2 < f1); // O también: return !(f1 > f2);
+}
+
+inline bool operator>=(const Fecha& f1, const Fecha& f2) { 
+    return !(f1 < f2);
+}
 
 #endif
