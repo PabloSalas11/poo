@@ -5,6 +5,8 @@
 #include <stdexcept>
 #include <cstring>
 #include <iterator>
+#include <string>
+#include <functional>
 
 //practica 0
 class Cadena {
@@ -12,7 +14,7 @@ public:
     explicit Cadena(size_t n=0, char c=' ');
     Cadena(const char* a ); 
     Cadena(const Cadena& c);
-    
+
     size_t length() const { return tam_; }
     void imprimir() const { std::cout << s_ << std::endl; }
     Cadena substr(size_t indice, size_t tam) const;
@@ -78,5 +80,19 @@ inline bool operator<=(const Cadena& c1, const Cadena& c2) { return !(c2 < c1);}
 inline bool operator>=(const Cadena& c1, const Cadena& c2) { return !(c1 < c2);}
 
 Cadena operator+(const Cadena& c1, const Cadena& c2);
+
+namespace std {
+    template <>
+    struct hash<Cadena> {
+        size_t operator() (const Cadena& cad) const
+        {
+            hash<string> hs;
+            auto p{(const char*) (cad)}; // Esto invoca correctamente a tu operator const char*() explícito
+            string s{p};
+            size_t res{hs(s)};
+            return res;
+        }
+    };
+}
 
 #endif 

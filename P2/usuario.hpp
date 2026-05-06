@@ -30,22 +30,7 @@ private:
     static const char caracteres_validos[];
 };
 
-class Numero {
-public:
-    enum Razon { LONGITUD, DIGITOS, NO_VALIDO };
-    class Incorrecto {
-    public:
-        Incorrecto(Razon r) : r_(r) {}
-        Razon razon() const { return r_; }
-    private:
-        Razon r_;   
-    };  
-    Numero(const Cadena& num);
-    operator const char*() const;
-    friend bool operator <(const Numero& n1, const Numero& n2);
-private:
-    Cadena numero_;
-};
+
 
 class Usuario {
 public:
@@ -80,12 +65,13 @@ public:
     const Cadena& apellidos() const { return apellidos_; }
     const Cadena& direccion() const { return direccion_; }
     const Tarjetas& tarjetas() const { return tarjetas_; }
-    const Articulos& compra() const { return carrito_; }
     size_t n_articulos() const { return carrito_.size(); }
+    Articulos carrito() const { return carrito_; }
 
     ~Usuario();
 
     friend std::ostream& operator <<(std::ostream& os, const Usuario& u);
+    
 
 private:
     Cadena id_, nombre_, apellidos_, direccion_;
@@ -93,5 +79,7 @@ private:
     Articulos carrito_;
     Tarjetas tarjetas_;
 };
+
+std::ostream& mostrar_carro(std::ostream& os, const Usuario& u);
 
 #endif

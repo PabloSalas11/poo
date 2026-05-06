@@ -5,7 +5,26 @@
 #include "fecha.hpp"
 #include "usuario.hpp"
 
-class Numero; // Declaración adelantada
+class Numero;
+class Usuario;
+
+class Numero {
+public:
+    enum Razon { LONGITUD, DIGITOS, NO_VALIDO };
+    class Incorrecto {
+    public:
+        Incorrecto(Razon r) : r_(r) {}
+        Razon razon() const { return r_; }
+    private:
+        Razon r_;   
+    };  
+    Numero(const Cadena& num);
+    operator const char*() const;
+private:
+    Cadena numero_;
+};
+
+bool operator <(const Numero& n1, const Numero& n2);
 
 class Tarjeta {
 public:

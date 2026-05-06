@@ -3,7 +3,48 @@
 #include <iomanip>
 #include <cctype>
 
-// Implementación del constructor
+
+bool luhn(const Cadena& numero);
+
+Numero::Numero(const Cadena& num) : numero_(num) {
+    char limpio[64];
+    size_t j = 0;
+
+    const char* original = numero_.operator const char *();
+
+    for (size_t i = 0; original[i] != '\0'; i++) {
+        if (std::isspace(original[i])) {
+            limpio[j] = original[i];
+            j++;
+        }
+    }
+    limpio[j] = '\0';
+
+    // 1. Validar longitud (entre 13 y 19 dígitos)
+    if (strlen(limpio) < 13 || strlen(limpio) > 19) {
+        throw Incorrecto(LONGITUD);
+    }
+
+    // 2. Validar que todos los caracteres sean dígitos
+    for (size_t i = 0; limpio[i] != '\0'; i++) {
+        if (!std::isdigit(limpio[i])) {
+            throw Incorrecto(DIGITOS);
+        }
+    }
+
+    Cadena numero_limpio(limpio);
+    if (!luhn(numero_limpio)) {
+        throw Incorrecto(NO_VALIDO);
+    }
+
+    numero_ = numero_limpio;
+}
+
+Numero::operator const char*() const {
+    // Llamamos explícitamente al operador de conversión de Cadena
+    return numero_.operator const char *();
+}
+
 Tarjeta::Tarjeta(const Numero& num, Usuario& user, const Fecha& cadu)
     : numero_(num), titular_(&user), caducidad_(cadu) 
 {
@@ -44,6 +85,10 @@ Tarjeta::~Tarjeta() {
 // Operador menor-que: comparación por número de tarjeta
 bool operator <(const Tarjeta& t1, const Tarjeta& t2) {
     return t1.numero() < t2.numero();
+}
+
+bool operator <(const Numero& n1, const Numero& n2) {
+    return strcmp(n1, n2) < 0;
 }
 
 // Auxiliar para imprimir el tipo de tarjeta

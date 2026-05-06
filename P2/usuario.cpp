@@ -30,10 +30,6 @@ bool Clave::verifica(const char* claro) {
     return cifrada && clave_ == cifrada;
 }
 
-// --- Implementación de Numero ---
-// (Tu implementación actual es correcta, solo asegúrate de incluir luhn)
-bool luhn(const Cadena&); 
-
 // --- Implementación de Usuario ---
 Usuario::Usuario(const Cadena& id, const Cadena& nombre, const Cadena& apellidos, 
                  const Cadena& direccion, const Clave& clave)
@@ -68,6 +64,16 @@ std::ostream& operator <<(std::ostream& os, const Usuario& u) {
        << "Tarjetas:\n";
     for (auto const& par : u.tarjetas_) {
         os << *par.second << "\n";
+    }
+    return os;
+}
+
+std::ostream& mostrar_carro(std::ostream& os, const Usuario& u) {
+    os << "Carrito de la compra de " << u.id() << "[Articulos: " << u.n_articulos() << "]\n";
+    os << "Cant. Articulo\n";
+    os <<"============================================\n";
+    for (auto const& par : u.carrito()) {
+        os << std::setw(4)<<par.second << " " << *par.first << "\n";
     }
     return os;
 }
