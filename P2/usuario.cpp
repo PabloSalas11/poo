@@ -25,7 +25,7 @@ Clave::Clave(const char* claro) {
     clave_ = cifrada;
 }
 
-bool Clave::verifica(const char* claro) {
+bool Clave::verifica(const char* claro) const {
     char* cifrada = crypt(claro, clave_.operator const char *());
     return cifrada && clave_ == cifrada;
 }
@@ -38,12 +38,6 @@ Usuario::Usuario(const Cadena& id, const Cadena& nombre, const Cadena& apellidos
     if (!Usuarios_.insert(id).second) throw Id_duplicado(id);
 }
 
-Usuario::~Usuario() {
-    for (auto& par : tarjetas_) {
-        par.second->titular(nullptr); // Desvincula la tarjeta[cite: 3]
-    }
-    Usuarios_.erase(id_);
-}
 
 void Usuario::compra(Articulo& a, unsigned int cantidad) {
     if (cantidad == 0) carrito_.erase(&a);
@@ -59,7 +53,7 @@ void Usuario::no_es_titular_de(Tarjeta& t) {
 }
 
 std::ostream& operator <<(std::ostream& os, const Usuario& u) {
-    os << u.id_ << " [" << u.password_.clave() << "] " << u.nombre_ << " " << u.apellidos_ << "\n"
+    os << u.id() << " [" << u.password_.clave() << "] " << u.nombre_ << " " << u.apellidos_ << "\n"
        << u.direccion_ << "\n"
        << "Tarjetas:\n";
     for (auto const& par : u.tarjetas_) {
@@ -72,8 +66,15 @@ std::ostream& mostrar_carro(std::ostream& os, const Usuario& u) {
     os << "Carrito de la compra de " << u.id() << "[Articulos: " << u.n_articulos() << "]\n";
     os << "Cant. Articulo\n";
     os <<"============================================\n";
-    for (auto const& par : u.carrito()) {
+    for (auto const& par : u.compra()) {
         os << std::setw(4)<<par.second << " " << *par.first << "\n";
     }
     return os;
+}
+
+Usuario::~Usuario() {
+    for (auto& par : tarjetas_) {
+        par.second->anula_titular(); 
+    }
+    Usuarios_.erase(id_);
 }

@@ -57,3 +57,9 @@ make clean
 make clean
 make all
 exit
+make clean
+make all
+make all
+exit
+make all
+exit

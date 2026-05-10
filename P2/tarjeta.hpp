@@ -40,8 +40,20 @@ public:
         Fecha fecha_;
     };
 
+    class Num_duplicado {
+    public:
+        Num_duplicado(const Numero& n) : num_(n) {}
+        const Numero& que() const { return num_; }
+    private:
+        Numero num_;
+    };
+
     // Constructor
     Tarjeta(const Numero& num, Usuario& user, const Fecha& cadu);
+
+    bool activa() const noexcept { return activa_; }
+    bool activa(bool b) noexcept { return activa_ = b; }
+    void anula_titular();
 
     // Prohibición de copia y asignación
     Tarjeta(const Tarjeta&) = delete;
@@ -60,12 +72,16 @@ public:
     // Destructor
     ~Tarjeta();
 
+    friend class Usuario; 
+
 private:
+static std::set<Numero> numeros_; // Registro de números de tarjeta para evitar duplicados
     const Numero numero_;
     Usuario* titular_;
     const Fecha caducidad_;
     Tipo tipo_;
     Cadena titular_facial_;
+    bool activa_ ;
 };
 
 // Operadores externos

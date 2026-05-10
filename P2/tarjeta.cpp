@@ -46,7 +46,7 @@ Numero::operator const char*() const {
 }
 
 Tarjeta::Tarjeta(const Numero& num, Usuario& user, const Fecha& cadu)
-    : numero_(num), titular_(&user), caducidad_(cadu) 
+    : numero_(num), titular_(&user), caducidad_(cadu) , activa_(true)
 {
     // 1. Validar caducidad frente a la fecha actual
     if (cadu < Fecha()) {
@@ -113,4 +113,9 @@ std::ostream& operator <<(std::ostream& os, const Tarjeta& t) {
        << "/" 
        << std::setw(2) << (t.caducidad().año() % 100) << "\n"; // Uso de año()
     return os;
+}
+
+void Tarjeta::anula_titular() {
+    titular_ = nullptr;
+    activa_ = false;
 }

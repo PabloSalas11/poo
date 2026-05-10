@@ -3,6 +3,7 @@
 
 #include "cadena.hpp"
 #include "articulo.hpp"
+#include <unordered_map>
 #include <map>
 #include <set>
 
@@ -23,7 +24,7 @@ public:
 
     Clave(const char* clave);
     Cadena clave() const { return clave_; } // Solo una declaración[cite: 5]
-    bool verifica(const char* claro);
+    bool verifica(const char* claro) const;
 
 private:
     Cadena clave_;
@@ -37,12 +38,12 @@ public:
     class Id_duplicado {
     public:
         Id_duplicado(const Cadena& id) : id_(id) {}
-        const Cadena& id() const { return id_; }
+        const Cadena& idd() const { return id_; }
     private:
         Cadena id_;
     };
 
-    typedef std::map<Articulo*, unsigned int> Articulos;
+    typedef std::unordered_map<Articulo*, unsigned int> Articulos;
     typedef std::map<Numero, Tarjeta*> Tarjetas;
 
     static std::set<Cadena> Usuarios_; // Registro de IDs[cite: 5]
@@ -65,8 +66,10 @@ public:
     const Cadena& apellidos() const { return apellidos_; }
     const Cadena& direccion() const { return direccion_; }
     const Tarjetas& tarjetas() const { return tarjetas_; }
+    const Articulos& compra() const { return carrito_; }
     size_t n_articulos() const { return carrito_.size(); }
-    Articulos carrito() const { return carrito_; }
+
+    void vaciar_carro() { carrito_.clear(); }
 
     ~Usuario();
 
